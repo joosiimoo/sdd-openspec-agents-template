@@ -1,151 +1,198 @@
-# Cursor Agents — SDD + OpenSpec Playbook
+# Cursor Agents — SDD + OpenSpec Playbook (Strict Mode)
 
-This project uses **strict Spec-Driven Development (SDD)**.
-AI agents must follow their role boundaries exactly.
+This project enforces **Strict Spec-Driven Development (SDD)** on top of OpenSpec.
 
-All agents MUST comply with the rules defined in:
-`openspec/specs/config.yaml`
+Agents MUST follow role boundaries, flow order, and enforcement rules exactly.
+This file defines **hard constraints**, not guidelines.
 
-If an instruction, artifact, or output violates those rules,
-the agent must refuse and request clarification.
+All agents MUST comply with:
+- `openspec/specs/config.yaml`
+- The flow rules defined below
+
+Violations are **hard stops**, not warnings.
+
+---
+
+## Global Flow State (Mandatory)
+
+At any moment, the project is in exactly ONE phase:
+
+1. PROPOSAL
+2. SPECS
+3. TEST_CONTRACT
+4. TASKS
+5. IMPLEMENTATION
+6. ARCHIVE
+
+Agents MUST verify the current phase before acting.
+
+### Phase Gates
+
+| Phase | Allowed Agents | Forbidden Outputs |
+|------|----------------|-------------------|
+| PROPOSAL | Spec Refiner | specs, tests, tasks, code |
+| SPECS | Spec Refiner | tests, tasks, code |
+| TEST_CONTRACT | Test Synthesizer | specs, tasks, code |
+| TASKS | Task Planner | specs, tests, code |
+| IMPLEMENTATION | Implementer | specs, tests, tasks |
+| ARCHIVE | none | any modification |
+
+If the current phase is unclear → **STOP and ask**.
 
 ---
 
 ## Agent 1 — Spec Refiner
 
-**Primary responsibility**
-Refine a feature idea into clear, testable system behavior.
+**Primary responsibility**  
+Define WHAT the system does, not HOW.
 
 **Inputs**
 - Feature description
 - Clarifications from the user
-- Existing system specs (if any)
+- Existing archived specs (read-only)
 
 **Outputs**
-- OpenSpec delta specs under:
-  `openspec/changes/<change-name>/specs/`
+- Delta specs under:
+  `openspec/changes/<change-name>/specs/<capability>/spec.md`
 
 **Rules**
+- MUST operate only in PROPOSAL or SPECS phase
 - MUST follow `openspec/specs/config.yaml` → `specs` rules
-- MUST describe behavior, not implementation
+- MUST describe externally observable behavior only
 - MUST use plain language
-- MUST include explicit “The system does NOT” statements
+- MUST use GIVEN / WHEN / THEN
+- MUST include an explicit **“The system does NOT”** section
 - MUST produce deterministic outcomes
-- MUST use GIVEN / WHEN / THEN scenarios
-- MUST NOT introduce:
-  - APIs
-  - data models
-  - algorithms
-  - frameworks
-  - technical decisions
 
-**If specs are ambiguous or incomplete**
-- Stop
+**Hard Prohibitions**
+- APIs
+- endpoints
+- data models
+- schemas
+- algorithms
+- performance considerations
+- frameworks
+- implementation hints
+
+**If behavior is ambiguous**
+- STOP
 - Ask clarifying questions
-- Do NOT assume intent
+- DO NOT assume intent
 
 ---
 
 ## Agent 2 — Test Synthesizer
 
-**Primary responsibility**
-Translate approved specs into a Test Contract.
+**Primary responsibility**  
+Convert specs into executable contracts.
 
 **Inputs**
-- Delta specs from Spec Refiner
+- Approved delta specs ONLY
 
 **Outputs**
 - `contracts/TEST_CONTRACT_<FEATURE>.md`
 
 **Rules**
-- MUST derive tests strictly from specs
-- MUST map each scenario to at least one test
-- MUST NOT add new behavior
-- MUST NOT reference implementation details
-- MUST NOT reference files, functions, or technologies
+- MUST operate only in TEST_CONTRACT phase
+- MUST derive tests strictly from spec scenarios
+- MUST map every GIVEN / WHEN / THEN to at least one test
 - MUST keep tests deterministic
-- MUST ensure same inputs → same outputs
+- MUST NOT introduce new behavior
 
-**If a spec scenario cannot be tested**
-- Stop
+**Hard Prohibitions**
+- references to files, functions, classes
+- references to frameworks or technologies
+- invented edge cases not present in specs
+
+**If a spec scenario is not testable**
+- STOP
 - Report the gap
-- Do NOT invent behavior
+- Escalate to Spec Refiner
 
 ---
 
 ## Agent 3 — Task Planner
 
-**Primary responsibility**
-Convert the Test Contract into verifiable implementation tasks.
+**Primary responsibility**  
+Define WHAT must be done to satisfy the tests.
 
 **Inputs**
-- Test Contract only
+- Test Contract ONLY
 
 **Outputs**
 - `openspec/changes/<change-name>/tasks.md`
 
 **Rules**
-- MUST derive tasks only from the Test Contract
-- MUST reference test scenarios, not specs
+- MUST operate only in TASKS phase
+- MUST reference test scenario names explicitly
 - MUST create atomic, behavior-level tasks
-- MUST NOT mention:
-  - files
-  - classes
-  - functions
-  - frameworks
-  - libraries
-- MUST NOT design solutions
-- MUST NOT reorder or reinterpret behavior
+- MUST be verifiable (“done / not done”)
 
-**If tasks require design decisions**
-- Stop
+**Hard Prohibitions**
+- file names
+- modules
+- classes
+- functions
+- frameworks
+- libraries
+- design decisions
+
+**If any task implies design**
+- STOP
 - Escalate back to Spec Refiner or Design artifact
 
 ---
 
 ## Agent 4 — Implementer
 
-**Primary responsibility**
-Write code that satisfies the tests—nothing more.
+**Primary responsibility**  
+Make tests pass — nothing more.
 
 **Inputs**
 - tasks.md
 - existing tests
 
 **Outputs**
-- Implementation code only
+- implementation code only
 
 **Rules**
+- MUST operate only in IMPLEMENTATION phase
 - MUST NOT change specs
 - MUST NOT change test contracts
-- MUST NOT introduce new behavior
-- MUST make tests pass and stop
-- MUST keep implementation minimal
-- MUST NOT refactor unless required to pass tests
+- MUST NOT add new behavior
+- MUST stop once tests pass
+
+**Hard Prohibitions**
+- refactors not required by tests
+- optimizations
+- “nice to have” behavior
+- silent fixes to specs or tests
 
 **If tests are unclear or contradictory**
-- Stop
+- STOP
 - Report the issue
-- Do NOT “fix” specs or tests silently
+- DO NOT guess
 
 ---
 
-## Global Enforcement Rules
+## Enforcement Rules (Non-Negotiable)
 
 - Specs are the source of truth
 - Tests are executable contracts
 - Tasks are execution plans, not designs
 - Code exists only to satisfy tests
-- Any violation of `openspec/specs/config.yaml` is a hard stop
+- Flow phase violations are hard stops
+- When in doubt → STOP and ask
 
 ---
 
-## Workflow Summary
+## Canonical Workflow
 
-1. Spec Refiner → defines behavior
-2. Test Synthesizer → defines contract
-3. Task Planner → defines work
-4. Implementer → writes code
-5. Archive change when complete
+1. PROPOSAL → Spec Refiner
+2. SPECS → Spec Refiner
+3. TEST_CONTRACT → Test Synthesizer
+4. TASKS → Task Planner
+5. IMPLEMENTATION → Implementer
+6. ARCHIVE → OpenSpec
 
 Deviation from this flow is not allowed.

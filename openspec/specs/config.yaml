@@ -1,7 +1,7 @@
 schema: spec-driven
 
 context: |
-  This project follows Spec-Driven Development (SDD).
+  This project follows Strict Spec-Driven Development (SDD).
 
   Specs define system behavior, not implementation.
   All behavior must be explicit, testable, and deterministic.
@@ -9,12 +9,16 @@ context: |
   Core principles:
   - No code without a spec
   - No tests without a spec
+  - No tasks without tests
   - No implicit decisions
-  - Specs describe what the system does, never how it is implemented
-  - Tests are contracts derived from specs, not examples
+  - Specs describe WHAT the system does, never HOW
+  - Tests are executable contracts derived from specs
 
   This repository is intentionally technology-agnostic.
   Do not assume frameworks, languages, databases, APIs, or architectures.
+
+  The project enforces a strict development flow:
+  PROPOSAL → SPECS → TEST_CONTRACT → TASKS → IMPLEMENTATION → ARCHIVE
 
 rules:
   proposal:
@@ -22,31 +26,61 @@ rules:
     - Explicitly list non-goals
     - Avoid solutioning or technical decisions
     - Use plain language understandable by non-engineers
+    - MUST NOT reference implementation, architecture, or tools
 
   specs:
     - Use OpenSpec delta format only (ADDED / MODIFIED / REMOVED)
     - Each requirement must describe observable system behavior
     - Each requirement must include GIVEN / WHEN / THEN scenarios
     - Outcomes must be deterministic
-    - Do not include implementation, data structures, APIs, or algorithms
     - Explicitly state what the system does NOT do
+    - MUST NOT include:
+        - APIs
+        - endpoints
+        - data models
+        - schemas
+        - algorithms
+        - performance considerations
+        - frameworks or libraries
+    - If behavior is ambiguous, the process MUST stop and request clarification
 
   design:
+    - Design is OPTIONAL and may only be created AFTER specs are approved
     - Design explains approach, not code
-    - May introduce technical concepts, but no function or class definitions
-    - Must stay consistent with approved specs
-    - Must not contradict the test contract
+    - May introduce high-level technical concepts only
+    - MUST NOT define:
+        - functions
+        - classes
+        - modules
+        - files
+    - MUST remain consistent with approved specs
+    - MUST NOT contradict test contracts
+    - If design introduces new behavior, the process MUST stop
 
   tasks:
     - Tasks must be derived strictly from the test contract
     - One task = one verifiable capability
-    - Tasks must reference scenarios, not implementation details
-    - Do not mention files, functions, classes, or frameworks
-    - Tasks should be atomic and behavior-focused
+    - Tasks must reference test scenarios, not specs
+    - Tasks must be atomic and behavior-focused
+    - MUST NOT mention:
+        - files
+        - functions
+        - classes
+        - frameworks
+        - libraries
+    - If a task implies a design decision, the process MUST stop
+
+  implementation:
+    - Implementation exists only to satisfy tasks and tests
+    - MUST NOT introduce new behavior
+    - MUST NOT modify specs, tests, or tasks
+    - MUST stop once tests pass
+    - Any refactor not required by tests is forbidden
 
   archive:
     - Only archive changes when:
-      - Specs are approved
-      - Test contracts exist
-      - Tests pass
+        - Specs are approved
+        - Test contracts exist
+        - Tasks are completed
+        - Tests pass
     - Archived changes become part of the system’s source of truth

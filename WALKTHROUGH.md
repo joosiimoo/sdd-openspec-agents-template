@@ -1,4 +1,6 @@
-# Example Walkthrough — Order Processing (SDD + OpenSpec + Agents)
+# Walkthrough — Order Processing (SDD + OpenSpec + Agents)
+
+**Purpose:** Use this document to see the full change flow in action (proposal → specs → test contract → tasks → implementation → archive). The example feature is **Order Processing**; the goal is to learn the **method**, not the code.
 
 This walkthrough shows **end-to-end** how to implement a feature using this template, **without improvisation**, **without hidden steps**, and **without prior context**.
 
@@ -114,7 +116,7 @@ What goes into the spec:
 * Requirements in plain language
 * GIVEN / WHEN / THEN scenarios
 * Deterministic outcomes
-* Explicit “The system does NOT” section
+* Explicit "The system does NOT" section
 
 Example behaviors:
 
@@ -155,11 +157,11 @@ Rules enforced:
 
 This file answers:
 
-> “How do we know the system behaves correctly?”
+> "How do we know the system behaves correctly?"
 
 Not:
 
-> “How do we implement it?”
+> "How do we implement it?"
 
 ---
 
@@ -185,8 +187,8 @@ Each task:
 
 Example task phrasing:
 
-* “The system can transition an order from PENDING to CONFIRMED”
-* “The system rejects invalid state transitions deterministically”
+* "The system can transition an order from PENDING to CONFIRMED"
+* "The system rejects invalid state transitions deterministically"
 
 🚫 No files
 🚫 No functions
@@ -261,7 +263,7 @@ This:
 
 * Merges delta specs into `openspec/specs/`
 * Moves the change to `openspec/changes/archive/`
-* Updates the system’s source of truth
+* Updates the system's source of truth
 
 After archive:
 
@@ -278,7 +280,7 @@ openspec list
 * AI can be constrained safely
 * The flow is repeatable
 * No tribal knowledge is required
-* No “magic prompts” are needed
+* No "magic prompts" are needed
 
 ---
 
@@ -309,7 +311,7 @@ If at any step you feel:
 
 * Confused
 * Forced to assume
-* Tempted to “just code it”
+* Tempted to "just code it"
 
 That means:
 👉 **A spec is weak or missing**

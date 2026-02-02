@@ -23,7 +23,7 @@ It defines:
 
 The proposal is **human-first by design** — you write it manually; OpenSpec does not generate it. The rest of the flow is **teachable, repeatable, and defendible**: agents have clear roles and boundaries, and the template tells you exactly what to do when the flow breaks.
 
-Use **CHANGE_TEMPLATE.md** as your single source of truth for *how* to work. This README gives you *what* this repo is and *why* it exists.
+Use **CHANGE_TEMPLATE.md** as your single source of truth for *how* to work. This README gives you *what* this repo is and *why* it exists. For a short checklist to start a change, see **[HOW_TO_START_A_CHANGE.md](./HOW_TO_START_A_CHANGE.md)**. To see the full flow in action with a concrete example (order processing), see **[WALKTHROUGH.md](./WALKTHROUGH.md)**.
 
 ---
 
@@ -37,7 +37,7 @@ After running `/opsx:new <change-name>`, you **MUST** manually create:
 openspec/changes/<change-name>/proposal.md
 ```
 
-Use **[PROPOSAL_TEMPLATE.md](./PROPOSAL_TEMPLATE.md)** as the base. Do not rely on OpenSpec's console suggestion if it conflicts with this repository.
+Use **[PROPOSAL_TEMPLATE.md](./PROPOSAL_TEMPLATE.md)** as the base. Do not rely on OpenSpec's console suggestion if it conflicts with this repository. For a step-by-step checklist, see **[HOW_TO_START_A_CHANGE.md](./HOW_TO_START_A_CHANGE.md)**.
 
 ---
 
@@ -93,6 +93,10 @@ It intentionally avoids prescribing APIs, databases, frameworks, or “best prac
 
 ```text
 .
+├── CHANGE_TEMPLATE.md         # Entry point — mandatory flow for every change
+├── PROPOSAL_TEMPLATE.md       # Proposal structure (use for proposal.md)
+├── HOW_TO_START_A_CHANGE.md   # Short checklist to start a change
+├── WALKTHROUGH.md             # End-to-end flow with example (see the method in action)
 ├── openspec/
 │   ├── specs/                 # Source of truth (current system behavior)
 │   │   └── <domain>/spec.md
@@ -132,7 +136,7 @@ npm install -g @fission-ai/openspec@latest
 
 ### 0. Read the Change Template
 
-**[CHANGE_TEMPLATE.md](./CHANGE_TEMPLATE.md)** is the entry point. It defines when to use the template, the full step-by-step flow, and what to do when the flow breaks. Do not skip this.
+**[CHANGE_TEMPLATE.md](./CHANGE_TEMPLATE.md)** is the entry point. It defines when to use the template, the full step-by-step flow, and what to do when the flow breaks. Do not skip this. To see the same flow applied end-to-end with an example feature, read **[WALKTHROUGH.md](./WALKTHROUGH.md)**.
 
 ### 1. Initialize OpenSpec
 
@@ -150,7 +154,7 @@ This creates the `openspec/` directory and loads project rules.
 
 Example: `/opsx:new order-processing` → creates `openspec/changes/order-processing/`.
 
-**Next (mandatory):** Write `proposal.md` manually (use [PROPOSAL_TEMPLATE.md](./PROPOSAL_TEMPLATE.md)). Do not run `/opsx:continue` or ask the AI to infer intent until the proposal is complete. Then follow [CHANGE_TEMPLATE.md](./CHANGE_TEMPLATE.md) from step 3 onward.
+**Next (mandatory):** Write `proposal.md` manually (use [PROPOSAL_TEMPLATE.md](./PROPOSAL_TEMPLATE.md)). Do not run `/opsx:continue` or ask the AI to infer intent until the proposal is complete. Then follow [CHANGE_TEMPLATE.md](./CHANGE_TEMPLATE.md) from step 3 onward. See **[HOW_TO_START_A_CHANGE.md](./HOW_TO_START_A_CHANGE.md)** for a short checklist.
 
 ---
 
@@ -326,6 +330,6 @@ If you improve the playbook, **share it back**.
 
 ## Final Note
 
-**Start with [CHANGE_TEMPLATE.md](./CHANGE_TEMPLATE.md).** It is the operating model for every change. If the process feels slower at the beginning — that’s intentional.
+**Start with [CHANGE_TEMPLATE.md](./CHANGE_TEMPLATE.md).** It is the operating model for every change. For a quick checklist to start a change, see **[HOW_TO_START_A_CHANGE.md](./HOW_TO_START_A_CHANGE.md)**. If the process feels slower at the beginning — that’s intentional.
 
 The payoff is: faster iteration after the first features, fewer rewrites, less tech debt, and AI that helps instead of guessing.

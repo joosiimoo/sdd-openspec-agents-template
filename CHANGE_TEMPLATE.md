@@ -47,15 +47,45 @@ This creates:
 openspec/changes/<change-name>/
 ```
 
+> ⚠️ This command **does NOT generate any content**.
+> It only initializes the change container.
+
 ---
 
-## 2. Proposal (WHY + WHAT)
+## 2. Proposal (WHY + WHAT) — Manual Step (Required)
 
-**File:**
+### 2.0 Important — Read This First
+
+**OpenSpec does NOT generate proposal content. This is intentional.**
+
+The proposal is the **only artifact that is human-first by design**.
+It captures intent, not structure.
+
+You MUST write it manually before continuing.
+
+---
+
+After running:
+
+```bash
+/opsx:new <change-name>
+```
+
+You MUST manually create:
 
 ```text
 openspec/changes/<change-name>/proposal.md
 ```
+
+Use the repository-level **PROPOSAL_TEMPLATE.md** as the base.
+
+❌ Do NOT continue to specs
+❌ Do NOT run `/opsx:continue`
+❌ Do NOT ask the AI to infer intent
+
+until `proposal.md` is complete.
+
+---
 
 ### Purpose
 

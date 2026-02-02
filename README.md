@@ -1,55 +1,65 @@
 # SDD + OpenSpec + Agents — Project Template
 
-This repository is a **public template** for building software using **Strict Spec-Driven Development (SDD)** powered by **OpenSpec** and **AI Agents**.
+This repository is a **public template** for building software using **Strict Spec-Driven Development (SDD)** with **OpenSpec** and **AI Agents**.
 
-It is designed to make **behavior-first development** repeatable, auditable, and compatible with AI-assisted workflows (Cursor, ChatGPT, etc.).
+Behavior-first development: **repeatable**, **auditable**, **operational** — no magic, no assumptions.
 
 ---
 
-## What This Template Is
+## 👉 Entry point: the Change Template
 
-This project enforces a **non-negotiable development flow**:
+**Before writing code or running agents, read this:**
+
+**[CHANGE_TEMPLATE.md](./CHANGE_TEMPLATE.md)**
+
+That document is the **mandatory structure and flow** for every change in this repo. It is part of the system’s operating model, not optional documentation.
+
+It defines:
+
+* **When** to use it (new feature, behavior change, clarification)
+* **Steps 0–11**: from “start change” → proposal (human-only) → specs → test contract → tasks → implementation → verify → archive
+* **Rules per step**: what is allowed, forbidden, and when to stop
+* **No assumptions**: the flow does not rely on implicit decisions; each step has explicit criteria
+
+The proposal is **human-first by design** — you write it manually; OpenSpec does not generate it. The rest of the flow is **teachable, repeatable, and defendible**: agents have clear roles and boundaries, and the template tells you exactly what to do when the flow breaks.
+
+Use **CHANGE_TEMPLATE.md** as your single source of truth for *how* to work. This README gives you *what* this repo is and *why* it exists.
+
+---
+
+## What This Repo Is
+
+A **non-negotiable development flow** (full detail in [CHANGE_TEMPLATE.md](./CHANGE_TEMPLATE.md)):
 
 ```
-PROPOSAL
+PROPOSAL (human-written, intent only)
    ↓
-SPECS (behavior)
+SPECS (behavior, delta format)
    ↓
-TEST CONTRACT (executable contract)
+TEST CONTRACT (executable agreement)
    ↓
-TASKS (execution plan)
+TASKS (from contract only)
    ↓
-IMPLEMENTATION (code)
+IMPLEMENTATION (code to satisfy tests)
    ↓
-ARCHIVE (source of truth)
+VERIFY → ARCHIVE (source of truth)
 ```
-
-Key properties:
 
 * Specs define **what the system does**, never how
 * Tests are **contracts**, not examples
 * Code exists **only** to satisfy tests
-* No implicit decisions
-* No speculative design
-* No shortcuts
+* No implicit decisions, no speculative design, no shortcuts
 
 ---
 
-## What This Template Is NOT
+## What This Repo Is NOT
 
 ❌ Not a framework
 ❌ Not a coding style guide
 ❌ Not an architecture reference
 ❌ Not tied to any language or stack
 
-This repo intentionally avoids:
-
-* APIs
-* Databases
-* Frameworks
-* Infrastructure
-* Performance tuning
-* “Best practices” without specs
+It intentionally avoids prescribing APIs, databases, frameworks, or “best practices” without specs.
 
 ---
 
@@ -57,11 +67,11 @@ This repo intentionally avoids:
 
 * **No code without a spec**
 * **No tests without a spec**
-* **No tasks without tests**
+* **No tasks without a test contract**
+* **No assumptions** — if unclear, stop and clarify
 * **Specs are the source of truth**
 * **Tests are executable contracts**
-* **Tasks describe behavior, not solutions**
-* **AI agents must respect role boundaries**
+* **AI agents respect role boundaries** (defined in the Change Template)
 
 ---
 
@@ -106,6 +116,10 @@ npm install -g @fission-ai/openspec@latest
 
 ## Quick Start (New Project)
 
+### 0. Read the Change Template
+
+**[CHANGE_TEMPLATE.md](./CHANGE_TEMPLATE.md)** is the entry point. It defines when to use the template, the full step-by-step flow, and what to do when the flow breaks. Do not skip this.
+
 ### 1. Initialize OpenSpec
 
 ```bash
@@ -114,31 +128,21 @@ openspec init
 
 This creates the `openspec/` directory and loads project rules.
 
----
-
-### 2. Start a New Change
+### 2. Start a Change (then follow the template)
 
 ```bash
 /opsx:new <change-name>
 ```
 
-Example:
+Example: `/opsx:new order-processing` → creates `openspec/changes/order-processing/`.
 
-```bash
-/opsx:new order-processing
-```
-
-This creates:
-
-```text
-openspec/changes/order-processing/
-```
+**Next (mandatory):** Write `proposal.md` manually (use [PROPOSAL_TEMPLATE.md](./PROPOSAL_TEMPLATE.md)). Do not run `/opsx:continue` or ask the AI to infer intent until the proposal is complete. Then follow [CHANGE_TEMPLATE.md](./CHANGE_TEMPLATE.md) from step 3 onward.
 
 ---
 
 ## The Agent-Based Workflow
 
-This template assumes **four explicit AI agents**, each with strict responsibilities.
+This repo uses **four explicit AI agents** with strict responsibilities. **When and how to use each agent** is defined in **[CHANGE_TEMPLATE.md](./CHANGE_TEMPLATE.md)** (steps 3–7). Summary:
 
 Their rules are defined in:
 
@@ -226,13 +230,15 @@ Rules:
 
 ## Implementing a Change
 
-Once all artifacts are complete:
+Full flow and rules → **[CHANGE_TEMPLATE.md](./CHANGE_TEMPLATE.md)** (steps 6–8).
+
+Once proposal, specs, test contract, and tasks are complete:
 
 ```bash
 /opsx:apply
 ```
 
-The AI will work through `tasks.md` and produce code.
+The AI works through `tasks.md` and produces code.
 
 Run tests locally:
 
@@ -244,6 +250,8 @@ pytest
 ---
 
 ## Archiving a Change
+
+Criteria and command → **[CHANGE_TEMPLATE.md](./CHANGE_TEMPLATE.md)** (step 9).
 
 When:
 
@@ -304,11 +312,6 @@ If you improve the playbook, **share it back**.
 
 ## Final Note
 
-If you feel the process is “slower” at the beginning — that’s expected.
+**Start with [CHANGE_TEMPLATE.md](./CHANGE_TEMPLATE.md).** It is the operating model for every change. If the process feels slower at the beginning — that’s intentional.
 
-The payoff is:
-
-* Faster iteration after first features
-* Fewer rewrites
-* Less tech debt
-* AI that actually helps instead of guessing
+The payoff is: faster iteration after the first features, fewer rewrites, less tech debt, and AI that helps instead of guessing.

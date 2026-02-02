@@ -65,11 +65,15 @@ At this point:
 
 **Agent involved:** none (human or AI-assisted writing is fine)
 
+OpenSpec **does not** auto-generate `proposal.md`. You **MUST** create it manually.
+
 Create:
 
 ```
 openspec/changes/order-processing/proposal.md
 ```
+
+**using** the repository's **PROPOSAL_TEMPLATE.md** (do not rely on OpenSpec's console suggestion if it differs).
 
 Purpose:
 
@@ -84,6 +88,8 @@ Example (simplified):
 * Non-goals: persistence, auth, APIs, integrations
 
 ⚠️ No technical design yet.
+
+Do **not** run `/opsx:continue` until the proposal is complete.
 
 ---
 
@@ -121,6 +127,8 @@ Example behaviors:
 🚫 No data models
 
 If behavior is ambiguous → **stop and clarify**.
+
+**Note:** The exact sequence of `/opsx:continue` (e.g. design → specs → tasks) depends on the workflow schema. Run it once per artifact until all are created. **[CHANGE_TEMPLATE.md](./CHANGE_TEMPLATE.md)** is the canonical reference for the flow.
 
 ---
 
@@ -276,7 +284,9 @@ openspec list
 
 ## How to Start Your Next Feature
 
-Repeat **exactly** the same steps:
+Repeat **exactly** the same steps.
+
+See also **[HOW_TO_START_A_CHANGE.md](./HOW_TO_START_A_CHANGE.md)** for a short checklist.
 
 ```bash
 /opsx:new <next-feature>

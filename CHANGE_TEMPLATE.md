@@ -63,6 +63,10 @@ It captures intent, not structure.
 
 You MUST write it manually before continuing.
 
+**Hard rule:** After `/opsx:new`, the proposal **is not** auto-generated.
+You **MUST** create `proposal.md` using **PROPOSAL_TEMPLATE.md**.
+Do not rely on OpenSpec's console suggestion if it conflicts with this repository.
+
 ---
 
 After running:

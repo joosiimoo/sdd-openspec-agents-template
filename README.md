@@ -27,6 +27,20 @@ Use **CHANGE_TEMPLATE.md** as your single source of truth for *how* to work. Thi
 
 ---
 
+## Important: Proposal Generation
+
+OpenSpec does **not** auto-generate `proposal.md`.
+
+After running `/opsx:new <change-name>`, you **MUST** manually create:
+
+```text
+openspec/changes/<change-name>/proposal.md
+```
+
+Use **[PROPOSAL_TEMPLATE.md](./PROPOSAL_TEMPLATE.md)** as the base. Do not rely on OpenSpec's console suggestion if it conflicts with this repository.
+
+---
+
 ## What This Repo Is
 
 A **non-negotiable development flow** (full detail in [CHANGE_TEMPLATE.md](./CHANGE_TEMPLATE.md)):

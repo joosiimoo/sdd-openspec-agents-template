@@ -13,6 +13,15 @@ Violations are **hard stops**, not warnings.
 
 ---
 
+## Repository Templates Take Precedence
+
+If OpenSpec instructions (or CLI output) differ from this repository's templates or rules, **the repository templates and rules take precedence**.
+
+- Use **PROPOSAL_TEMPLATE.md** for the proposal structure, not the template shown in OpenSpec's console.
+- Follow **CHANGE_TEMPLATE.md** for the flow; do not assume OpenSpec's default flow overrides it.
+
+---
+
 ## Global Flow State (Mandatory)
 
 At any moment, the project is in exactly ONE phase:

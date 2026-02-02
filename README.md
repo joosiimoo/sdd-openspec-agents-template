@@ -57,7 +57,7 @@ The product here is the **process**, not the code.
    /opsx:new <feature-name>
    ```
 2. Refine specs
-    - Agent: Spec Refiner 
+    - Agent: Spec Refiner
     - Output: OpenSpec delta specs
 
 3. Generate test contract

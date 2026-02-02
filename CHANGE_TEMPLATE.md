@@ -2,8 +2,10 @@
 
 This template defines the **mandatory structure and flow** for any new change in this repository.
 
-Every feature, fix, or behavior change MUST follow this template.
-Deviations are not allowed.
+Every feature, fix, or behavior change **MUST** follow this template.
+Deviations are **not allowed**.
+
+This document is part of the system’s operating model, not optional documentation.
 
 ---
 
@@ -28,12 +30,12 @@ From the project root:
 /opsx:new <change-name>
 ```
 
-Naming rules:
+### Naming rules
 
 * Use kebab-case
-* Describe behavior, not implementation
+* Describe **behavior**, not implementation
 
-Examples:
+**Examples:**
 
 * `order-processing`
 * `cash-drawer-validation`
@@ -41,7 +43,7 @@ Examples:
 
 This creates:
 
-```
+```text
 openspec/changes/<change-name>/
 ```
 
@@ -51,42 +53,122 @@ openspec/changes/<change-name>/
 
 **File:**
 
-```
+```text
 openspec/changes/<change-name>/proposal.md
 ```
 
 ### Purpose
 
-Explain:
+The proposal defines:
 
-* Why this change exists
-* What behavior is being added/changed/removed
-* What is explicitly out of scope
+* **Why** this change exists
+* **What** it enables at a high level
+* **What is explicitly out of scope**
 
-### Required Sections
+It intentionally avoids rules, edge cases, and technical decisions.
+
+---
+
+### Mandatory Proposal Template
+
+When `/opsx:new` is executed, the proposal **MUST** be initialized using the following template.
+Do **not** start from an empty document.
 
 ```markdown
 # Proposal: <change-name>
 
+> This document defines **why** this change exists and **what** it enables.
+> It intentionally avoids rules, edge cases, or technical decisions.
+
+---
+
 ## Intent
-Why this change is needed.
+
+Describe the core problem this change addresses.
+
+Guidelines:
+- Why does this change matter?
+- Who is affected?
+- What pain or limitation exists today?
+
+Avoid:
+- Solution descriptions
+- Technical language
+- Feature lists
+
+---
+
+## Context (optional)
+
+Provide background information needed to understand the problem.
+
+Examples:
+- Business constraints
+- Regulatory context
+- Organizational realities
+
+Do NOT include:
+- Systems
+- Architecture
+- Data models
+- APIs
+
+---
 
 ## Scope
-What behavior is included.
 
-## Non-Goals
-What this change will NOT do.
+Describe **what this change enables**, at a high level.
 
-## Assumptions
-Any known constraints or invariants.
+Use short bullet points.  
+Each bullet describes a capability, not a rule.
+
+Example:
+- Allow orders to be created and tracked through their lifecycle
+- Make order state observable at any point in time
+
+---
+
+## Non-goals
+
+This section is **mandatory**.
+
+Explicitly list what this change does NOT attempt to solve.
+
+Example:
+- No persistence
+- No authentication
+- No integrations with external systems
+
+---
+
+## Success criteria
+
+Describe how we know this change is successful.
+
+Guidelines:
+- Observable outcomes only
+- No technical metrics
+- No implementation assumptions
+
+Example:
+- Users can determine the current state of an order
+- Invalid state transitions are prevented
 ```
 
-### Rules
+---
 
-* No technical decisions
-* No solution design
-* Plain language
-* Understandable by non-engineers
+### Proposal Rules
+
+* MUST follow the Mandatory Proposal Template
+* MUST use plain language
+* MUST be understandable by non-engineers
+* MUST NOT include:
+
+  * Technical decisions
+  * Rules or validations
+  * State machines
+  * APIs or data models
+  * Edge cases
 
 If intent or scope is unclear → **stop and clarify**.
 
@@ -99,31 +181,31 @@ If intent or scope is unclear → **stop and clarify**.
 
 **Location:**
 
-```
+```text
 openspec/changes/<change-name>/specs/<capability>/spec.md
 ```
 
 ### Rules
 
-* Use OpenSpec delta format only:
+* Use OpenSpec **delta format only**:
 
   * `ADDED`
   * `MODIFIED`
   * `REMOVED`
 * Each requirement MUST:
 
-  * Describe observable behavior
+  * Describe observable system behavior
   * Include GIVEN / WHEN / THEN scenarios
   * Produce deterministic outcomes
 * MUST include an explicit:
 
-  ```
-  The system does NOT:
-  ```
+```text
+The system does NOT:
+```
 
-  section
+section.
 
-### Forbidden
+### Forbidden in specs
 
 * APIs
 * Data models
@@ -141,7 +223,7 @@ If behavior is ambiguous → **stop and ask questions**.
 
 **File:**
 
-```
+```text
 openspec/changes/<change-name>/TEST_CONTRACT.md
 ```
 
@@ -149,20 +231,20 @@ openspec/changes/<change-name>/TEST_CONTRACT.md
 
 Translate specs into **verifiable behavior**.
 
+The test contract defines:
+
+> “How we know the system behaves correctly”
+
+Not:
+
+> “How the system is implemented”
+
 ### Rules
 
 * One or more tests per scenario
 * No new behavior
 * No implementation hints
 * Deterministic inputs and outputs
-
-This file defines:
-
-> “How we know the system behaves correctly”
-
-Not:
-
-> “How we build it”
 
 If a scenario cannot be tested → **stop and report the gap**.
 
@@ -172,11 +254,11 @@ If a scenario cannot be tested → **stop and report the gap**.
 
 **File:**
 
-```
+```text
 openspec/changes/<change-name>/design.md
 ```
 
-### When Required
+### When design is required
 
 Design is required if:
 
@@ -186,13 +268,13 @@ Design is required if:
 
 ### Rules
 
-* Explains *approach*, not code
+* Explains **approach**, not code
 * No functions, classes, or APIs
 * Must not contradict specs or test contract
 
 If no design decisions exist, explicitly state:
 
-```
+```text
 This change requires no design decisions beyond the defined specs.
 ```
 
@@ -204,16 +286,22 @@ This change requires no design decisions beyond the defined specs.
 
 **File:**
 
-```
+```text
 openspec/changes/<change-name>/tasks.md
 ```
 
 ### Rules
 
-* Tasks derive ONLY from the Test Contract
+* Tasks derive **ONLY** from the Test Contract
 * One task = one verifiable capability
-* Tasks reference test scenarios
-* No files, functions, frameworks, or technologies
+* Tasks reference **test scenarios**, not specs
+* MUST NOT mention:
+
+  * Files
+  * Functions
+  * Classes
+  * Frameworks
+  * Libraries
 
 If a task requires design → **stop and go back to design**.
 
@@ -249,7 +337,7 @@ pytest
 
 Expected:
 
-```
+```text
 All tests pass
 ```
 
@@ -262,7 +350,7 @@ Failures mean:
 
 ## 9. Archive the Change
 
-When ALL are true:
+Archive only when ALL are true:
 
 * Specs approved
 * Test Contract exists
@@ -303,7 +391,7 @@ If you feel tempted to:
 
 * Skip a step
 * “Just code it”
-* Fix tests or specs ad hoc
+* Fix specs or tests ad hoc
 
 Stop.
 
